@@ -1,7 +1,7 @@
 # OPA - Branch Hierarchy Security
 
 This repository contains the `rego` and json data to
-model all of the examples in the [abc branch security presentation](https://dmsi.sharepoint.com/:v:/r/development/Security%20Admin/Branch%20Hierarchy-Security%20project/Branch%20Hierarchy-Enhanced%20Security%20Overview.mp4?csf=1&web=1) (warning: video).
+model ~~all~~ _some_ of the examples in the [abc branch security presentation](https://dmsi.sharepoint.com/:v:/r/development/Security%20Admin/Branch%20Hierarchy-Security%20project/Branch%20Hierarchy-Enhanced%20Security%20Overview.mp4?csf=1&web=1) (warning: video).
 
 This repo does not demonstrate the use of `opa` as an agent or sidecar process. It does not
 demonstrate any data syncing or API usage.
@@ -10,7 +10,42 @@ demonstrate any data syncing or API usage.
 
 You'll need to install opa v0.43.0 from [here](https://github.com/open-policy-agent/opa/releases/tag/v0.43.0).
 
+## Algorithm
 
+### data
+1. `org_chart_data`, consisting of different of a company. Leaf nodes are called `branches`, as in "Scranton Branch". 
+   A `level` is the depth of a node _as measured from the leaf nodes_. A branch is level 1, by definition.
+2. `role_data`, which contains a tree, `role -> securable_object -> level -> security_level`. Ideally a 
+   `securable_object` would be a particular entity, but in our examples they are screens in an application. 
+   A `security_level` is one of 4 values, "full", "read_only", "limited", and null (we might call these 
+   "permissions" in other contexts)
+4. A `user` who has 
+   1. `allowed_branches`, which are the branches the user is allowed to visit
+   2. `default_branch`, the user's regular branch
+   3. `current_branch`, which is another branch they may be working "in"
+
+### Effective Level
+
+We define the `effective_level` as the `level` of the first intersection between two paths:
+
+1. The path from the user's `default_branch` to the root node
+2. The path from the user's `current_branch` to the root node.
+
+![org_chart](docs/org_chart.png)
+
+_Example: If a user's default branch is `001` and their current branch is `006`, then the two paths back to the root node 
+intersect at "lumber company", so the effective level is 3._
+
+### Role Definitions
+
+A role has a set of `securable_objects`, each of which has a `security_level` for each `level`.
+
+![roles](docs/roles.png)
+
+_Example: a user with roles SALES3 and VIEWER-REPORTS.
+If the user's current branch is `006`, then her effective branch, using the org chart above, is "lumber company",
+which is at level 3. So her candidate permissions on "sales order entry screen" are  `read_only` and `full`. 
+The algorithm should pick the most permissive, so she would get `full` access._
 ## Eval
 
 You can evaluate different expressions from the command line. 
