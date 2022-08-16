@@ -111,7 +111,9 @@ opa test . -v
 
 ## Actors and Architecture
 
-If you're bolting this onto a monolith, you might have something like this.
+If you're bolting this onto a monolith, you might have something like this. 
+
+> edit: I have no idea what I'm talking about here.
 
 ![actors](docs/actors.png)
 
