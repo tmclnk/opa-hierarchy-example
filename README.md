@@ -12,17 +12,20 @@ You'll need to install opa v0.43.0 from [here](https://github.com/open-policy-ag
 
 ## Algorithm
 
-### data
-1. `org_chart_data`, consisting of different of a company. Leaf nodes are called `branches`, as in "Scranton Branch". 
+### The Data
+1. `org_chart_data` for a company. The org chart is a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph).   
+   Leaf nodes are called `branches` (as in, "Scranton Branch"). 
    A `level` is the depth of a node _as measured from the leaf nodes_. A branch is level 1, by definition.
-2. `role_data`, which contains a tree, `role -> securable_object -> level -> security_level`. Ideally a 
-   `securable_object` would be a particular entity, but in our examples they are screens in an application. 
-   A `security_level` is one of 4 values, "full", "read_only", "limited", and null (we might call these 
+2. `role_data`, which contains a tree, `role -> securable_object -> level -> security_level`. A 
+   `securable_object` in these examples are screens in an application. They could also be actual entities from
+   an application's data model. A `security_level` is one of 4 values, "full", "read_only", "limited", and null/none (we might call these 
    "permissions" in other contexts)
 4. A `user` who has 
    1. `allowed_branches`, which are the branches the user is allowed to visit
    2. `default_branch`, the user's regular branch
    3. `current_branch`, which is another branch they may be working "in"
+
+
 
 ### Effective Level
 
@@ -36,7 +39,7 @@ We define the `effective_level` as the `level` of the first intersection between
 _Example: If a user's default branch is `001` and their current branch is `006`, then the two paths back to the root node 
 intersect at "lumber company", so the effective level is 3._
 
-### Role Definitions
+### Role and Security Level Definitions
 
 A role has a set of `securable_objects`, each of which has a `security_level` for each `level`.
 
@@ -91,15 +94,18 @@ opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.user_p
 opa test . -v
 ```
 
-## Terminology
+## Actors and Architecture
 
-I'm just listing these here. Each of these is a different thing.
+If you're bolting this onto a monolith, you might have something like this.
 
-- securable_object
-- security_level (there are 4, roughly `full`,`read_only`,`limited`, and null). Null is a deliberate choice.
-- level (in the hierarchy)
-- role
-- user
+![actors](docs/actors.png)
+
+- Admins manage the org chart and roles.
+- Developers write policies.
+- Use any data store to hold the authoritative org chart, role, and (possibly) user data. 
+- Push or pull data into the agent.
+- Implementation of the data store is loosely coupled to the OPA interfaces.
+- Use a separate identity provider, or not. OPA doesn't care.
 
 ## Philosophy
 
