@@ -19,17 +19,17 @@ You'll need to install opa v0.43.0 from [here](https://github.com/open-policy-ag
 2. `role_data`, which contains a tree, `role -> securable_object -> level -> security_level`. A 
    `securable_object` in these examples are screens in an application. They could also be actual entities from
    an application's data model. A `security_level` is one of 4 values, "full", "read_only", "limited", and null/none (we might call these 
-   "permissions" in other contexts)
+   "permissions" in other contexts).
 4. A `user` who has 
-   1. `allowed_branches`, which are the branches the user is allowed to visit
-   2. `default_branch`, the user's regular branch
-   3. `current_branch`, which is another branch they may be working "in"
+   1. `allowed_branches`, which are the branches the user is allowed to visit.
+   2. `default_branch`, the user's regular branch.
+   3. `current_branch`, which is another branch they may be working "in".
 
 ### Effective Level
 
 We define the `effective_level` as the `level` of the first intersection between two paths:
 
-1. The path from the user's `default_branch` to the root node
+1. The path from the user's `default_branch` to the root node.
 2. The path from the user's `current_branch` to the root node.
 
 ![org_chart](docs/org_chart.png)
