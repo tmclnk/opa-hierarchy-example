@@ -25,8 +25,6 @@ You'll need to install opa v0.43.0 from [here](https://github.com/open-policy-ag
    2. `default_branch`, the user's regular branch
    3. `current_branch`, which is another branch they may be working "in"
 
-
-
 ### Effective Level
 
 We define the `effective_level` as the `level` of the first intersection between two paths:
@@ -38,6 +36,14 @@ We define the `effective_level` as the `level` of the first intersection between
 
 _Example: If a user's default branch is `001` and their current branch is `006`, then the two paths back to the root node 
 intersect at "lumber company", so the effective level is 3._
+
+### Philosophy
+
+We don't have an explicit `deny` as a value (at least, within the innards of the system - we could add a top-level default).
+This is because as we search the user's roles, we are looking for explicit permissions and accumulating
+them as we go. One could read "deny" as an explicit override, rather than simply _not_ having the permission.
+
+This is debatable, but it's what I did here.
 
 ### Role and Security Level Definitions
 
@@ -106,15 +112,6 @@ If you're bolting this onto a monolith, you might have something like this.
 - Push or pull data into the agent.
 - Implementation of the data store is loosely coupled to the OPA interfaces.
 - Use a separate identity provider, or not. OPA doesn't care.
-
-## Philosophy
-
-We don't have an explicit `deny` as a value (at least, within the innards of the system - we could add a top-level default). 
-This is because as we search the user's roles, we are looking for explicit permissions and accumulating
-them as we go. One could read "deny" as an explicit override, rather than simply _not_ having the permission.
-
-This is debatable, but it's what I did here.
-
 
 ## Related Links
 
