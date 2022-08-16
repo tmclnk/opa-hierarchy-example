@@ -11,3 +11,6 @@ test: ## opa test
 
 eval: ## print effective security level based on input.json and data.json
 	opa eval --bundle . --input input.json --data data.json --format pretty 'data.branch_hierarchy.effective_security_level'
+
+repl: ## start a repl using data.json and input.json
+	opa run . repl.input:input.json

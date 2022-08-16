@@ -83,16 +83,25 @@ Output:
 }
 ```
 
-### Other Examples
+### Example Rules
 
-```shell
-opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.effective_security_levels'
-opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.effective_security_level.SO_ENTRY'
-opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.effective_security_level.CM_ENTRY'
-opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.effective_security_level["SO_ENTRY"]'
-opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.user_permissions'
+```
+data.branch_hierarchy.effective_security_levels
+data.branch_hierarchy.effective_security_level.SO_ENTRY
+data.branch_hierarchy.effective_security_level.CM_ENTRY
+data.branch_hierarchy.effective_security_level["SO_ENTRY"]
+data.branch_hierarchy.user_permissions
 ```
 
+## The REPL
+
+You can interactively work with policies in opa's repl. Tab-completion is available (start with `data`).
+
+```
+make repl
+```
+
+![repl](./docs/repl.png)
 
 ## Unit Tests
 
