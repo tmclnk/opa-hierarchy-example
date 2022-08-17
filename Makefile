@@ -12,6 +12,9 @@ test: ## opa test
 data: ## show all base and virtual data
 	@opa eval --bundle . --input input.json --data data.json --format pretty 'data'
 
+server-styra: ## start opa server (requires styra opa-conf.yaml)
+	opa run --server --config-file=opa-conf.yaml
+
 effective_security_level: ## print effective security level based on input.json and data.json
 	@opa eval --bundle . --input input.json --data data.json --format pretty 'data.rules.effective_security_level'
 
