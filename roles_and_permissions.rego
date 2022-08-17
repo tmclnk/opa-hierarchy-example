@@ -1,10 +1,8 @@
 package branch_hierarchy
 
-import future.keywords
-
 # TODO this is probably pretty inefficient. It was the first thing I wrote, and the most complicated.
 
-user_permissions := comp if {
+user_permissions := comp {
 	perms := {securable_objects[s]: permissions |
 		securable_objects := {securable_object |
 			role := user.roles[_]
@@ -22,7 +20,7 @@ user_permissions := comp if {
 	comp := flattened_perms(perms)
 }
 
-flattened_perms(permission_map) := comp if {
+flattened_perms(permission_map) := comp {
 	comp := {key: securable_objects |
 		permission_map[key]
 		so = key
