@@ -9,6 +9,9 @@ fmt: ## opa format
 test: ## opa test
 	opa test . -v
 
+data: ## show all base and virtual data
+	opa eval --bundle . --input input.json --data data.json --format pretty 'data'
+
 effective_security_level: ## print effective security level based on input.json and data.json
 	opa eval --bundle . --input input.json --data data.json --format pretty 'data.branch_hierarchy.effective_security_level'
 
