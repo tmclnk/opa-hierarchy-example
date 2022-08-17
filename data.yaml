@@ -1,3 +1,7 @@
+################################################################################
+# user_data is application-side administrative data about the user. It is
+# critical that this data come from a known source and not as input.
+################################################################################
 user_data:
   sam:
     default_branch: "001"
@@ -15,6 +19,13 @@ user_data:
     roles:
       - VIEWERS-REPORTERS
       - SALES-REG
+################################################################################
+# org_chart_data consists of a flat list of nodes and their parents.
+# We use this particular structure because the algorithm has us construct
+# from the bottom up, not from the top-down. Note that this structure
+# itself is not arranged in a hierarchy. Every node in the tree is represented
+# at the top level.
+################################################################################
 org_chart_data:
   XYZ Lumber:
     level: "4"
@@ -61,6 +72,15 @@ org_chart_data:
   "103":
     parent: Canada
     level: "1"
+################################################################################
+# role_data is arranged in a tree so that we can query it hierarchically.
+#  ┌────────┐        ┌────────────┐      ┌─────────┐     ┌────────────┐
+#  │        │        │            │      │         │     │            │
+#  │  role  ├───────►│  securable ├─────►│  org    ├────►│  security  │
+#  │        │        │  obj       │      │  level  │     │  level     │
+#  │        │        │            │      │         │     │            │
+#  └────────┘        └────────────┘      └─────────┘     └────────────┘
+################################################################################
 role_data:
   SALES1:
     SO_ENTRY:
