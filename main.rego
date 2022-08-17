@@ -1,3 +1,9 @@
+################################################################################
+# This file contains the top-level rules used to make determinations.
+# Remember that base documents (those containing user info, the role tree, and
+# the org tree) AND virtual documents (those calculated below) are both
+# access via the global variable called "data".
+################################################################################
 package branch_hierarchy
 
 import future.keywords
