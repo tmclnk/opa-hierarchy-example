@@ -1,4 +1,6 @@
 .PHONY: help
+OPA_HOST = localhost:8181
+
 
 help: ## Print Help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -9,11 +11,20 @@ fmt: ## opa format
 test: ## opa test
 	opa test . -v
 
-data: ## show all base and virtual data
-	@opa eval --bundle . --input input.json --data data.json --format pretty 'data'
-
+################################################################################
+# local server agent
+################################################################################
 server-styra: ## start opa server (requires styra opa-conf.yaml)
 	opa run --server --config-file=opa-conf.yaml
+
+get-policies: ## get policies from local server
+	@curl ${OPA_HOST}/v1/policies
+
+################################################################################
+# Command-line evals
+################################################################################
+data: ## show all base and virtual data
+	@opa eval --bundle . --input input.json --data data.json --format pretty 'data'
 
 effective_security_level: ## print effective security level based on input.json and data.json
 	@opa eval --bundle . --input input.json --data data.json --format pretty 'data.rules.effective_security_level'
