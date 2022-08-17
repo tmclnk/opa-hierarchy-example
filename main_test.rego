@@ -1,4 +1,4 @@
-package branch_hierarchy
+package rules
 
 import future.keywords
 

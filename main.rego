@@ -4,7 +4,7 @@
 # the org tree) AND virtual documents (those calculated below) are both
 # access via the global variable called "data".
 ################################################################################
-package branch_hierarchy
+package rules
 
 # This is the primary rule. It will return the string-valued security_level
 # for the securable_object. If the user doesn't have access to the securable_object,

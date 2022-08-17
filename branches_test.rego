@@ -1,4 +1,4 @@
-package branch_hierarchy
+package rules
 
 test_edge_path {
 	edge_path("001") == ["001", "East", "Lumber Company", "XYZ Lumber"]

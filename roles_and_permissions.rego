@@ -1,4 +1,4 @@
-package branch_hierarchy
+package rules
 
 # TODO this is probably pretty inefficient. It was the first thing I wrote, and the most complicated.
 

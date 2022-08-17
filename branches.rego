@@ -1,4 +1,4 @@
-package branch_hierarchy
+package rules
 
 # Path, as array[string], of the branch_names from the given branch back to the root node.
 # Each node can only have a single parent.
