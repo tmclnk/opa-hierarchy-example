@@ -60,18 +60,18 @@ The algorithm should pick the most permissive, so she would get `full` access._
 You can evaluate different expressions from the command line. 
 We will pass two files in.
 
-1. [input.yaml](input.yaml), which models data you pass to opa, e.g. username and branch. In practice, the input data may be a JWT, entitlements from ADFS, LDAP attributes, etc.
-2. [data.yaml](data.yaml), which is data stored in the agent. This is data you would sync out to the agents. In this example, it includes
+1. [input.json](input.json), which models data you pass to opa, e.g. username and branch. In practice, the input data may be a JWT, entitlements from ADFS, LDAP attributes, etc.
+2. [data.json](data.json), which is data stored in the agent. This is data you would sync out to the agents. In this example, it includes
    - `user_data` - the user's roles and default branch
    - `org_chart_data` - a DAG of the org chart
    - `role_data` - roles, securable_objects, and the security_level for each level
 
-You can modify the values in [input.yaml](input.yaml) to mimic different `current_branch` scenarios.
+You can modify the values in [input.json](input.json) to mimic different `current_branch` scenarios.
 
 
 ### Eval Examples
 ```shell
-opa eval -b . -f pretty -d data.yaml -i input.yaml 'data.branch_hierarchy.effective_security_level'
+opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.effective_security_level'
 ```
 
 Output:
