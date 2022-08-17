@@ -1,8 +1,0 @@
-################################################################################
-# In practice, user identity needs to be some sort of secure token, not
-# just a username.
-# To experiment with different outcomes, you can modify this file.
-################################################################################
-user:
-  name: sam
-  current_branch: "006"
