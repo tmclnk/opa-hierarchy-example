@@ -6,14 +6,14 @@ user_permissions := comp {
 	perms := {securable_objects[s]: permissions |
 		securable_objects := {securable_object |
 			role := user.roles[_]
-			data.role_data[role][securable_object]
+			data.dataset.role_data[role][securable_object]
 		}
 
 		permissions := [permission_set |
-			data.role_data[role][securable_object]
+			data.dataset.role_data[role][securable_object]
 			user.roles[_] = role
 			securable_object = s
-			permission_set := data.role_data[role][securable_object]
+			permission_set := data.dataset.role_data[role][securable_object]
 		]
 	}
 

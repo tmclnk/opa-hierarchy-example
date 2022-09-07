@@ -26,4 +26,4 @@ effective_branch_level := [k |
 ][0] + 1
 
 # We're combining user info here, which is probably a bad idea
-user := object.union(input.user, data.user_data[input.user.name])
+user := object.union(input.user, data.dataset.user_data[input.user.name])

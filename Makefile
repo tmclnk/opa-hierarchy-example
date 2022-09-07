@@ -27,7 +27,8 @@ ifndef STYRA_SYSTEM_URL
 $(error STYRA_SYSTEM_URL is unset in .env file)
 endif
 	# note that the free styra only allows a single dataset, so we can't make additional ones
-	curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer $(STYRA_BEARER_TOKEN)' '$(STYRA_SYSTEM_URL)/dataset' --data-binary '@data.json'
+	jq .dataset data.json > .dataset.json
+	curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer $(STYRA_BEARER_TOKEN)' '$(STYRA_SYSTEM_URL)/dataset' -d '@.dataset.json'
 
 get-policies: ## get policies from local server
 	@curl ${OPA_HOST}/v1/policies

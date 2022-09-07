@@ -7,6 +7,6 @@ edge_path(branch_name) := graph.reachable_paths(org_parent_graph, {branch_name})
 # A digraph for each node and its children.
 # map[string, set[string]]
 org_parent_graph[entity_name] := set {
-	node := data.org_chart_data[entity_name]
+	node := data.dataset.org_chart_data[entity_name]
 	set := {node.parent}
 }
