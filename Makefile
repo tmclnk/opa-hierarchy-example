@@ -2,6 +2,14 @@ include .env
 .PHONY: help
 OPA_HOST = localhost:8181
 
+# We need these
+ifndef STYRA_SYSTEM_URL
+$(warning STYRA_SYSTEM_URL is unset)
+endif
+ifndef STYRA_SYSTEM_URL
+$(warning STYRA_SYSTEM_URL is unset)
+endif
+
 help: ## Print Help
 	@grep -Eh '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
