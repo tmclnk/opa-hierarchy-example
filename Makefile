@@ -2,14 +2,6 @@ include .env
 .PHONY: help
 OPA_HOST = localhost:8181
 
-# We need these
-ifndef STYRA_SYSTEM_URL
-$(warning STYRA_SYSTEM_URL is unset)
-endif
-ifndef STYRA_SYSTEM_URL
-$(warning STYRA_SYSTEM_URL is unset)
-endif
-
 help: ## Print Help
 	@grep -Eh '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -22,8 +14,20 @@ test: ## opa test
 ################################################################################
 # local server agent
 ################################################################################
+# To get opa-conf.yaml, go to the styra DAS admin console and select the
+# system you want to register. Details are under the settings -> Install.
 server-styra: ## start opa server (requires styra opa-conf.yaml)
 	opa run --server --config-file=opa-conf.yaml
+
+upload-data: ## upload data.json to styra das datasource called "dataset"
+ifndef STYRA_SYSTEM_URL
+$(error STYRA_SYSTEM_URL is unset in .env file)
+endif
+ifndef STYRA_SYSTEM_URL
+$(error STYRA_SYSTEM_URL is unset in .env file)
+endif
+	# note that the free styra only allows a single dataset, so we can't make additional ones
+	curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer $(STYRA_BEARER_TOKEN)' '$(STYRA_SYSTEM_URL)/dataset' --data-binary '@data.json'
 
 get-policies: ## get policies from local server
 	@curl ${OPA_HOST}/v1/policies
