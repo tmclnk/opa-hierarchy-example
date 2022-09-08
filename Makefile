@@ -33,13 +33,12 @@ endif
 get-policies: ## get policies from local server
 	@curl ${OPA_HOST}/v1/policies
 
-test-agent-main: ## run main query
+test-agent-main: ## run main query on local agent
 # valid branches are 001 through 006
 # valid names are "sam", "bob", and "rob"
-	@curl -w "@curl-format.txt" --location --request POST 'http://localhost:8181/' \
+	@curl -w "@curl-format.txt" --location --request POST 'http://localhost:8181/v1/data/rules/main' \
 	--header 'Content-Type: application/json' \
-	--data-raw '{ "user": { "name": "rob", "current_branch": "001" } }'
-
+	--data-raw '{"input": { "user": { "name": "rob", "current_branch": "001" }, "securable_object":"CM_ENTRY"}}'
 ################################################################################
 # Command-line evals
 ################################################################################
