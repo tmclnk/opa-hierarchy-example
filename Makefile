@@ -26,12 +26,19 @@ endif
 ifndef STYRA_SYSTEM_URL
 $(error STYRA_SYSTEM_URL is unset in .env file)
 endif
-	# note that the free styra only allows a single dataset, so we can't make additional ones
+# note that the free styra only allows a single dataset, so we can't make additional ones
 	jq .dataset data.json > .dataset.json
 	curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer $(STYRA_BEARER_TOKEN)' '$(STYRA_SYSTEM_URL)/dataset' -d '@.dataset.json'
 
 get-policies: ## get policies from local server
 	@curl ${OPA_HOST}/v1/policies
+
+test-agent-main: ## run main query
+# valid branches are 001 through 006
+# valid names are "sam", "bob", and "rob"
+	@curl -w "@curl-format.txt" --location --request POST 'http://localhost:8181/' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{ "user": { "name": "rob", "current_branch": "001" } }'
 
 ################################################################################
 # Command-line evals
