@@ -126,5 +126,12 @@ If you're bolting this onto a monolith, you might have something like this.
 
 ## Related Links
 
-- [OPA Policy Reference](https://www.openpolicyagent.org/docs/v0.43.0/policy-reference/)
-- [OPA Policy Language](https://www.openpolicyagent.org/docs/v0.43.0/policy-language/)
+- [OPA Policy Reference]
+- [OPA Policy Language]
+- [OPA REST API]
+- [Styra DAS API]
+
+[OPA Policy Reference]: https://www.openpolicyagent.org/docs/v0.43.0/policy-reference/
+[OPA Policy Language]: https://www.openpolicyagent.org/docs/v0.43.0/policy-language/
+[OPA REST API]: https://www.openpolicyagent.org/docs/latest/rest-api/
+[Styra DAS API]: https://www.openpolicyagent.org/docs/latest/rest-api/
