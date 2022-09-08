@@ -6,6 +6,10 @@
 ################################################################################
 package rules
 
+main = msg {
+	msg := effective_security_level
+}
+
 # This is the primary rule. It will return the string-valued security_level
 # for the securable_object. If the user doesn't have access to the securable_object,
 # the rule is undefined.
