@@ -6,8 +6,11 @@
 ################################################################################
 package rules
 
+# Look up the user's level for the given securable object.
+# Example Input:
+# { "user": { "name": "rob", "current_branch": "001" }, "securable_object":"CM_ENTRY"}
 main = msg {
-	msg := effective_security_level
+	msg := effective_security_level[input.securable_object]
 }
 
 # This is the primary rule. It will return the string-valued security_level
