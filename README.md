@@ -71,7 +71,7 @@ You can modify the values in [input.json](input.json) to mimic different `curren
 
 ### Eval Examples
 ```shell
-opa eval -b . -f pretty -d data.json -i input.json 'data.branch_hierarchy.effective_security_level'
+opa eval -b . -f pretty -d data.json -i input.json 'data.rules.effective_security_level'
 ```
 
 Output:
@@ -86,11 +86,11 @@ Output:
 ### Example Rules
 
 ```
-data.branch_hierarchy.effective_security_levels
-data.branch_hierarchy.effective_security_level.SO_ENTRY
-data.branch_hierarchy.effective_security_level.CM_ENTRY
-data.branch_hierarchy.effective_security_level["SO_ENTRY"]
-data.branch_hierarchy.user_permissions
+data.rules.effective_security_levels
+data.rules.effective_security_level.SO_ENTRY
+data.rules.effective_security_level.CM_ENTRY
+data.rules.effective_security_level["SO_ENTRY"]
+data.rules.user_permissions
 ```
 
 ## The REPL
@@ -126,5 +126,12 @@ If you're bolting this onto a monolith, you might have something like this.
 
 ## Related Links
 
-- [OPA Policy Reference](https://www.openpolicyagent.org/docs/v0.43.0/policy-reference/)
-- [OPA Policy Language](https://www.openpolicyagent.org/docs/v0.43.0/policy-language/)
+- [OPA Policy Reference]
+- [OPA Policy Language]
+- [OPA REST API]
+- [Styra DAS API]
+
+[OPA Policy Reference]: https://www.openpolicyagent.org/docs/v0.43.0/policy-reference/
+[OPA Policy Language]: https://www.openpolicyagent.org/docs/v0.43.0/policy-language/
+[OPA REST API]: https://www.openpolicyagent.org/docs/latest/rest-api/
+[Styra DAS API]: https://www.openpolicyagent.org/docs/latest/rest-api/

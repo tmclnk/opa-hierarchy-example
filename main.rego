@@ -4,7 +4,69 @@
 # the org tree) AND virtual documents (those calculated below) are both
 # access via the global variable called "data".
 ################################################################################
-package branch_hierarchy
+package rules
+
+# Look up the user's level for the given securable object.
+# Example Input:
+# { "user": { "name": "rob", "current_branch": "001" }, "securable_object":"CM_ENTRY"}
+main = msg {
+	msg := effective_security_level[input.securable_object]
+}
+
+# Path, as array[string], of the branch_names from the given branch back to the root node.
+# Each node can only have a single parent.
+edge_path(branch_name) := graph.reachable_paths(org_parent_graph, {branch_name})[_]
+
+# A digraph for each node and its children.
+# map[string, set[string]]
+org_parent_graph[entity_name] := set {
+	node := data.dataset.org_chart_data[entity_name]
+	set := {node.parent}
+}
+
+# TODO this is probably pretty inefficient. It was the first thing I wrote, and the most complicated.
+
+user_permissions := comp {
+	perms := {securable_objects[s]: permissions |
+		securable_objects := {securable_object |
+			role := user.roles[_]
+			data.dataset.role_data[role][securable_object]
+		}
+
+		permissions := [permission_set |
+			data.dataset.role_data[role][securable_object]
+			user.roles[_] = role
+			securable_object = s
+			permission_set := data.dataset.role_data[role][securable_object]
+		]
+	}
+
+	comp := flattened_perms(perms)
+}
+
+flattened_perms(permission_map) := comp {
+	comp := {key: securable_objects |
+		permission_map[key]
+		so = key
+		securable_objects := {branch_level: security_levels |
+			permission_map[_][_][branch_level]
+			security_levels := {sl |
+				sl := permission_map[so][_][branch_level]
+			}
+		}
+	}
+}
+
+levels := {
+	"full": 3,
+	"limited": 2,
+	"read_only": 1,
+	null: 0,
+}
+
+inverse_levels := {k: v | k = levels[v]}
+
+max_of(set) := inverse_levels[max({val | val := levels[set[_]]})]
 
 # This is the primary rule. It will return the string-valued security_level
 # for the securable_object. If the user doesn't have access to the securable_object,
@@ -26,4 +88,4 @@ effective_branch_level := [k |
 ][0] + 1
 
 # We're combining user info here, which is probably a bad idea
-user := object.union(input.user, data.user_data[input.user.name])
+user := object.union(input.user, data.dataset.user_data[input.user.name])

@@ -1,1 +1,3 @@
 opa-conf.yaml
+.env
+.dataset.json

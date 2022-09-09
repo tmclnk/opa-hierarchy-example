@@ -1,4 +1,4 @@
-package branch_hierarchy
+package rules
 
 import future.keywords
 
@@ -78,4 +78,20 @@ test_example_3 if {
 	"read_only" == effective_security_level.SO_ENTRY with input as {"user": {"name": "bob", "current_branch": "102"}}
 	4 == effective_branch_level with input as {"user": {"name": "bob", "current_branch": "103"}}
 	"read_only" == effective_security_level.SO_ENTRY with input as {"user": {"name": "bob", "current_branch": "103"}}
+}
+
+test_edge_path if {
+	edge_path("001") == ["001", "East", "Lumber Company", "XYZ Lumber"]
+	edge_path("003") == ["003", "East", "Lumber Company", "XYZ Lumber"]
+	edge_path("004") == ["004", "Southeast", "Lumber Company", "XYZ Lumber"]
+	edge_path("005") == ["005", "Southeast", "Lumber Company", "XYZ Lumber"]
+	edge_path("101") == ["101", "Canada", "Lumber Co of Canada", "XYZ Lumber"]
+}
+
+test_max_of if {
+	max_of(["read_only", "full", "limited"]) == "full"
+	max_of(["read_only", "full", null]) == "full"
+	max_of([null, "limited", "read_only", null]) == "limited"
+	max_of(["read_only", null]) == "read_only"
+	max_of([null, null]) == null
 }
