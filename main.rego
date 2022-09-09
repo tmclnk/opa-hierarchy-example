@@ -6,6 +6,8 @@
 ################################################################################
 package rules
 
+default main := "none"
+
 # Look up the user's level for the given securable object.
 # Example Input:
 # { "user": { "name": "rob", "current_branch": "001" }, "securable_object":"CM_ENTRY"}
