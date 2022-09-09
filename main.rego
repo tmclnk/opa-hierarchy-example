@@ -13,6 +13,13 @@ main = msg {
 	msg := effective_security_level[input.securable_object]
 }
 
+principal = val {
+	url := sprintf("http://localhost:8080/%v", [input.session_id])
+	response := http.send({"method": "get", "url": url})
+	response.status_code == 200
+	val := response.body
+}
+
 # Path, as array[string], of the branch_names from the given branch back to the root node.
 # Each node can only have a single parent.
 edge_path(branch_name) := graph.reachable_paths(org_parent_graph, {branch_name})[_]
@@ -88,4 +95,9 @@ effective_branch_level := [k |
 ][0] + 1
 
 # We're combining user info here, which is probably a bad idea
-user := object.union(input.user, data.dataset.user_data[input.user.name])
+user := {
+	"user": principal.username,
+	"current_branch": principal.current_branch,
+	"default_branch": data.dataset.user_data[principal.username].default_branch,
+	"roles": data.dataset.user_data[principal.username].roles,
+}
