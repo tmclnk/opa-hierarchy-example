@@ -44,7 +44,9 @@ func getRoot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	io.WriteString(w, string(bytes))
+	json := string(bytes)
+	fmt.Println(json)
+	io.WriteString(w, json)
 }
 
 func getSessions(filename string) (map[string]*Principal, error) {
