@@ -33,12 +33,21 @@ endif
 styra-get-policies: ## get policies from local server
 	@curl ${OPA_HOST}/v1/policies
 
+
 test-agent-main: ## run main query on local agent
+# valid branches are 001 through 006
+# valid names are "sam", "bob", and "rob"
+	@curl -w "@curl-format.txt" --location --request POST 'http://localhost:8181/' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{"session_id":"581E6D0F-FAEF-41EB-9A61-21E077575326", "securable_object":"SO_ENTRY"}'
+
+test-agent-query: ## run main query on local agent
 # valid branches are 001 through 006
 # valid names are "sam", "bob", and "rob"
 	@curl -w "@curl-format.txt" --location --request POST 'http://localhost:8181/v1/data/rules/main' \
 	--header 'Content-Type: application/json' \
-	--data-raw '{"input": { "user": { "name": "rob", "current_branch": "001" }, "securable_object":"CM_ENTRY"}}'
+	--data-raw '{"input":{"session_id":"581E6D0F-FAEF-41EB-9A61-21E077575326", "securable_object":"SO_ENTRY"}}'
+
 
 ################################################################################
 # Local Data
