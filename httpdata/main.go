@@ -1,3 +1,7 @@
+// A small http service that listens to http://localhost:8080/{{session_id}}
+// and returns the corresponding value from data.json.
+// If the key isn't found in data.json, a 404 is returned.
+// There's no caching here, you can edit data.json between requests.
 package main
 
 import (

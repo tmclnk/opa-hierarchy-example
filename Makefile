@@ -30,8 +30,6 @@ endif
 	jq .dataset data.json > .dataset.json
 	curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer $(STYRA_BEARER_TOKEN)' '$(STYRA_SYSTEM_URL)/dataset' -d '@.dataset.json'
 
-
-
 styra-get-policies: ## get policies from local server
 	@curl ${OPA_HOST}/v1/policies
 
@@ -41,6 +39,16 @@ test-agent-main: ## run main query on local agent
 	@curl -w "@curl-format.txt" --location --request POST 'http://localhost:8181/v1/data/rules/main' \
 	--header 'Content-Type: application/json' \
 	--data-raw '{"input": { "user": { "name": "rob", "current_branch": "001" }, "securable_object":"CM_ENTRY"}}'
+
+################################################################################
+# Local Data
+################################################################################
+local-data-server: ## launch the local data server
+	cd httpdata && go run main.go
+
+local-opa-agent: ## launch an opa agent using the policies on local disk
+	opa run --server -b .
+
 ################################################################################
 # Command-line evals
 ################################################################################

@@ -1,3 +1,5 @@
+# Atención! You'll need to run the local data server for these to work!
+# See the Makefile for how to start it.
 package rules
 
 import future.keywords
